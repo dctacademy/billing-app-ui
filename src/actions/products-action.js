@@ -16,3 +16,29 @@ const setProducts = (data) => {
     }
 }
 
+export const startCreateProduct = (formData, resetForm) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post('http://localhost:3050/api/products', formData)
+            dispatch(addProduct(response.data))
+            resetForm()
+        } catch(err) {
+            console.log(err.response.data.errors)
+            dispatch(setServerErrors(err.response.data.errors))
+        }
+    }
+}
+
+const addProduct = (product) => {
+    return {
+        type: "ADD_PRODUCT",
+        payload: product 
+    }
+}
+
+const setServerErrors = (errors) => {
+    return { 
+        type: "SET_ERRORS",
+        payload: errors 
+    }
+}

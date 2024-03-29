@@ -1,5 +1,11 @@
 import { useState } from 'react' 
+import { useDispatch, useSelector } from 'react-redux'
+import { startCreateProduct } from '../actions/products-action'
 export default function AddProduct() {
+    const dispatch = useDispatch()
+    const serverErrors = useSelector((state) => {
+        return state.products.serverErrors
+    })
     // name, price, description, stockLevel, reorderLevel
     const [form, setForm] = useState({ 
         name: '',
@@ -13,10 +19,41 @@ export default function AddProduct() {
         const {name, value} = e.target
         setForm({...form, [name]: value })
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        // run client validations 
+
+        const resetForm = () => {
+            setForm({ 
+                name: '',
+                price: '',
+                description: '',
+                reorderLevel: '',
+                stockLevel: ''
+            })
+        }
+
+        dispatch(startCreateProduct(form, resetForm))      
+        
+    }
+
     return (
         <>
             <h2>Add Product</h2>
-            <form >
+            {
+                serverErrors.length > 0 && (
+                    <div>
+                        These errors prohibited the form from being saved: 
+                        <ul>
+                            { serverErrors.map((ele, i) => {
+                                return <li key={i}> { ele.msg }</li>
+                            })}
+                        </ul>
+                    </div>
+                )
+            }
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label 
                         className="form-label"
