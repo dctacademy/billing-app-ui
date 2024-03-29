@@ -14,7 +14,15 @@ const productsReducer = (state = initialState, action) => {
         case 'SET_ERRORS' : {
             return {...state, serverErrors: action.payload }
         }
-        
+        case 'UPDATE_PRODUCT' : {
+            return { ...state, data: state.data.map((ele) => {
+                if(ele._id == action.payload._id) {
+                    return action.payload 
+                } else {
+                    return ele 
+                }
+            })}
+        }
         default: {
             return { ...state }
         }

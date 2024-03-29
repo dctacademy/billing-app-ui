@@ -42,3 +42,23 @@ export const setServerErrors = (errors) => {
         payload: errors 
     }
 }
+
+export const startUpdateProduct = (id, formData, resetForm, toggle) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(`http://localhost:3050/api/products/${id}`, formData) 
+            dispatch(updateProduct(response.data)) 
+            resetForm()
+            toggle()
+        } catch(err) {
+            dispatch(setServerErrors(err.response.data.errors))
+        }
+    }
+}
+
+const updateProduct = (product) => {
+    return {
+        type: 'UPDATE_PRODUCT',
+        payload: product 
+    }
+}

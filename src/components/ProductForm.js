@@ -1,18 +1,33 @@
 import { useState } from 'react' 
 import { useDispatch, useSelector } from 'react-redux'
-import { startCreateProduct } from '../actions/products-action'
-export default function ProductForm() {
+import { startCreateProduct, startUpdateProduct } from '../actions/products-action'
+export default function ProductForm(props) {
+    
     const dispatch = useDispatch()
     const serverErrors = useSelector((state) => {
         return state.products.serverErrors
     })
+
+   
+    const product = useSelector((state) => {
+        return state.products.data.find(ele => ele._id == props.editId )
+    })
+
+    console.log(product)
+
     // name, price, description, stockLevel, reorderLevel
-    const [form, setForm] = useState({ 
+    const [form, setForm] = useState(product ? {
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        stockLevel: product.stockLevel,
+        reorderLevel: product.reorderLevel
+    } : {
         name: '',
-        price: '', 
+        price: '',
         description: '',
         stockLevel: '',
-        reorderLevel: ''
+        reorderLevel: '',
     })
 
     const handleChange = (e) => {
@@ -34,15 +49,18 @@ export default function ProductForm() {
             })
         }
 
-        dispatch(startCreateProduct(form, resetForm))      
+        if(product) {
+            dispatch(startUpdateProduct(product._id, form, resetForm, props.toggle))
+        } else {
+            dispatch(startCreateProduct(form, resetForm))      
+        }
         
     }
 
     return (
         <>
-           
             {
-                serverErrors.length > 0 && (
+                serverErrors.length > 0 &&  (
                     <div>
                         These errors prohibited the form from being saved: 
                         <ul>

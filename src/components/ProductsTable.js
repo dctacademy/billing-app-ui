@@ -1,6 +1,22 @@
+import { useState } from 'react' 
+import ProductForm from './ProductForm';
+import { useDispatch } from 'react-redux'
+import { setServerErrors } from '../actions/products-action';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 export default function ProductsTable(props) {
+    const dispatch = useDispatch()
+    const [editId, setEditId] = useState('')
+    const [modal, setModal] = useState(false);
     const {data} = props.products 
+
+    const toggle = () => {
+        setModal(!modal)
+        dispatch(setServerErrors([]))
+    }
+
     return (
+        <>
             <table className="table">
                 <thead>
                     <tr>
@@ -23,7 +39,10 @@ export default function ProductsTable(props) {
                                 <td>{ ele.reorderLevel }</td>
                                 <td>
                                         <button>show</button>
-                                        <button>edit</button>
+                                        <button onClick={() => {
+                                            setEditId(ele._id)
+                                            toggle()
+                                        }}>edit</button>
                                         <button>remove</button>
                                 </td>
                             </tr>
@@ -31,5 +50,21 @@ export default function ProductsTable(props) {
                     }) }
                 </tbody>
             </table>
+           
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}> Edit Product</ModalHeader>
+        <ModalBody>
+            <ProductForm editId={editId} toggle={toggle} />
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggle}>
+            Do Something
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+            </>
     )
 }
