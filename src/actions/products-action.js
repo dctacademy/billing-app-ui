@@ -62,3 +62,21 @@ const updateProduct = (product) => {
         payload: product 
     }
 }
+
+export const startRemoveProduct = (id) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.delete(`http://localhost:3050/api/products/${id}`)
+            dispatch(removeProduct(response.data))
+        } catch(err) {
+
+        }
+    }
+}
+
+const removeProduct = (product) => {
+    return {
+        type: 'REMOVE_PRODUCT',
+        payload: product
+    }
+}

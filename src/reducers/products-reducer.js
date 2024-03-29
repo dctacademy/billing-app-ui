@@ -23,6 +23,9 @@ const productsReducer = (state = initialState, action) => {
                 }
             })}
         }
+        case 'REMOVE_PRODUCT': {
+            return {...state, data: state.data.filter(ele => ele._id != action.payload._id )}
+        }
         default: {
             return { ...state }
         }

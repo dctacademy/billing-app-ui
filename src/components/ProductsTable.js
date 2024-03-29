@@ -1,7 +1,7 @@
 import { useState } from 'react' 
 import ProductForm from './ProductForm';
 import { useDispatch } from 'react-redux'
-import { setServerErrors } from '../actions/products-action';
+import { setServerErrors, startRemoveProduct } from '../actions/products-action';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export default function ProductsTable(props) {
@@ -13,6 +13,13 @@ export default function ProductsTable(props) {
     const toggle = () => {
         setModal(!modal)
         dispatch(setServerErrors([]))
+    }
+
+    const handleRemove = (id) => {
+        const userConfirm = window.confirm("Are you sure?")
+        if(userConfirm) {
+            dispatch(startRemoveProduct(id))
+        }
     }
 
     return (
@@ -43,7 +50,9 @@ export default function ProductsTable(props) {
                                             setEditId(ele._id)
                                             toggle()
                                         }}>edit</button>
-                                        <button>remove</button>
+                                        <button onClick={() => {
+                                            handleRemove(ele._id)
+                                        }}>remove</button>
                                 </td>
                             </tr>
                         )
