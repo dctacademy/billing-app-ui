@@ -1,6 +1,6 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App';
@@ -9,8 +9,6 @@ import configureStore from './store/configureStore';
 
 const store = configureStore()
 console.log(store.getState())
-
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,3 +23,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+// npm install bootstrap reactstrap 

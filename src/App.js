@@ -6,9 +6,7 @@ import ProductsContainer from './components/ProductsContainer';
 import Dashboard from './components/Dashboard';
 function App() {
   const dispatch = useDispatch()
-  const products = useSelector((state) => {
-    return state.products 
-  })
+
   useEffect(() => {
     dispatch(startGetProducts())
   }, [dispatch])

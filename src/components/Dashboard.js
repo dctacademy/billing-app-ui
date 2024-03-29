@@ -3,6 +3,7 @@ export default function Dashboard() {
     const products = useSelector((state) => { 
         return state.products
     })
+    
     return (
         <div>
             <h2>Dashboard</h2>
