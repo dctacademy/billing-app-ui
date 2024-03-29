@@ -1,7 +1,7 @@
 import { useState } from 'react' 
 import { useDispatch, useSelector } from 'react-redux'
 import { startCreateProduct } from '../actions/products-action'
-export default function AddProduct() {
+export default function ProductForm() {
     const dispatch = useDispatch()
     const serverErrors = useSelector((state) => {
         return state.products.serverErrors
@@ -40,7 +40,7 @@ export default function AddProduct() {
 
     return (
         <>
-            <h2>Add Product</h2>
+           
             {
                 serverErrors.length > 0 && (
                     <div>

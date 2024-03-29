@@ -1,10 +1,21 @@
 import ProductsTable from "./ProductsTable"
-import AddProduct from "./AddProduct"
-import { useSelector } from 'react-redux'
+import ProductForm from "./ProductForm"
+import { useDispatch, useSelector } from 'react-redux'
+import { setServerErrors } from "../actions/products-action"
+import { useEffect } from 'react' 
+
 export default function ProductsContainer() {
+    const dispatch = useDispatch()
     const products = useSelector((state) => {
         return state.products
     })
+
+    useEffect(() => {
+        return () => {
+            dispatch(setServerErrors([]))
+        }
+    }, [dispatch])
+
     return (
         <div className="row">
             <h2>Total Products - { products.data.length }</h2>
@@ -12,7 +23,8 @@ export default function ProductsContainer() {
                 <ProductsTable products={products} />
             </div>
             <div className="col-md-4">
-                <AddProduct />
+                <h2>Add Product</h2>
+                <ProductForm />
             </div>
         </div>
     )

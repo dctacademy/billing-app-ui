@@ -14,6 +14,7 @@ const productsReducer = (state = initialState, action) => {
         case 'SET_ERRORS' : {
             return {...state, serverErrors: action.payload }
         }
+        
         default: {
             return { ...state }
         }
