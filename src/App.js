@@ -8,6 +8,7 @@ import CustomersContainer from './components/CustomersContainer';
 import Dashboard from './components/Dashboard';
 import customerReducer from './reducers/customers-reducer';
 import { CustomersContext } from './contexts/root-context';
+import CustomerShow from './components/CustomerShow';
 
 function App() {
   const dispatch = useDispatch()
@@ -38,6 +39,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/products" element={<ProductsContainer />}/>
         <Route path="/customers" element={<CustomersContainer />} />
+        <Route path="/customers/show/:id" element={<CustomerShow />} />
      </Routes>
     </div>
     </CustomersContext.Provider>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 export default function CustomersTable(props){
     const { customers } = props 
     return (
@@ -15,7 +16,7 @@ export default function CustomersTable(props){
                     { customers.data.map((ele) => {
                         return (
                             <tr key={ele._id}>
-                                <td> { ele.name }</td>
+                                <td> <Link to={`/customers/show/${ele._id}`}>{ ele.name }</Link></td>
                                 <td> { ele.contact.email } </td> 
                                 <td> { ele.contact.mobile } </td> 
                                 <td> 
