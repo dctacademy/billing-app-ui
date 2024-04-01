@@ -12,6 +12,15 @@ export default function customerReducer (state, action) {
         case 'REMOVE_CUSTOMER' : {
             return {...state, data: state.data.filter(ele => ele._id != action.payload._id)}
         }
+        case 'UPDATE_CUSTOMER' : {
+            return {...state, data: state.data.map((ele) => {
+                if(ele._id == action.payload._id) {
+                    return action.payload 
+                } else {
+                    return ele
+                }
+            })}
+        }
         default: {
             return {...state }
         }

@@ -2,14 +2,18 @@ import axios from 'axios'
 import { CustomersContext } from '../contexts/root-context'
 import { useState, useContext } from 'react'
 // import useState
-export default function CustomerForm(){
+export default function CustomerForm(props){
     const { customers, customerDispatch } = useContext(CustomersContext)
-    const [form, setForm] = useState({
+
+    const customer = customers.data.find(ele => ele._id == props.editId)
+    const [form, setForm] = useState(customer ? {
+        name: customer.name,
+        email: customer.contact.email,
+        mobile: customer.contact.mobile
+    } : {
         name: '',
-       contact: {
         email: '',
         mobile: ''
-       }
     })
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -21,10 +25,19 @@ export default function CustomerForm(){
             }
         }
         try { 
-            const response = await axios.post('http://localhost:3050/api/customers', formData)
-            customerDispatch({ type: 'ADD_CUSTOMER', payload: response.data })
-            customerDispatch({ type: "SET_ERRORS", payload: []})
-            setForm({ name: '', email: '', mobile: ''})
+            if(customer) {
+                const response = await axios.put(`http://localhost:3050/api/customers/${customer._id}`, formData) 
+                customerDispatch({ type: 'UPDATE_CUSTOMER', payload: response.data })
+                setForm({ name: '', email: '', mobile: ''})
+                props.toggle()
+                customerDispatch({ type: "SET_ERRORS", payload: []})
+            } else {
+                const response = await axios.post('http://localhost:3050/api/customers', formData)
+                customerDispatch({ type: 'ADD_CUSTOMER', payload: response.data })
+                customerDispatch({ type: "SET_ERRORS", payload: []})
+                setForm({ name: '', email: '', mobile: ''})
+            }
+            
         } catch(err) {
             customerDispatch({ type: "SET_ERRORS", payload: err.response.data.errors })
         }
