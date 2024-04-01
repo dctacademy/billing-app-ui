@@ -9,6 +9,9 @@ export default function customerReducer (state, action) {
         case 'SET_ERRORS' : {
             return {...state, serverErrors: action.payload}
         }
+        case 'REMOVE_CUSTOMER' : {
+            return {...state, data: state.data.filter(ele => ele._id != action.payload._id)}
+        }
         default: {
             return {...state }
         }
