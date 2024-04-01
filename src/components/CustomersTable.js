@@ -2,7 +2,6 @@ export default function CustomersTable(props){
     const { customers } = props 
     return (
         <>
-            <h2>Customers Table</h2>
             <table className="table">
                 <thead>
                     <tr>
