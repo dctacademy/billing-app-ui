@@ -22,6 +22,11 @@ export default function ProductsTable(props) {
         }
     }
 
+    const handleEdit = (id) => {
+        setEditId(id)
+        toggle()
+    }
+
     return (
         <>
             <table className="table">
@@ -46,10 +51,9 @@ export default function ProductsTable(props) {
                                 <td>{ ele.reorderLevel }</td>
                                 <td>
                                         <button>show</button>
-                                        <button onClick={() => {
-                                            setEditId(ele._id)
-                                            toggle()
-                                        }}>edit</button>
+                                        <button onClick={(() => {
+                                            handleEdit(ele._id)
+                                        })}>edit</button>
                                         <button onClick={() => {
                                             handleRemove(ele._id)
                                         }}>remove</button>
