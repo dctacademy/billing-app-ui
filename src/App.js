@@ -2,13 +2,16 @@ import axios from 'axios'
 import { useReducer, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom'
-import { startGetProducts } from './actions/products-action';
 import ProductsContainer from './components/ProductsContainer';
 import CustomersContainer from './components/CustomersContainer';
-import Dashboard from './components/Dashboard';
-import customerReducer from './reducers/customers-reducer';
-import { CustomersContext } from './contexts/root-context';
 import CustomerShow from './components/CustomerShow';
+import Dashboard from './components/Dashboard';
+
+import { CustomersContext } from './contexts/root-context';
+import { startGetProducts } from './actions/products-action';
+import { startGetInvoices } from './actions/invoices-action';
+
+import customerReducer from './reducers/customers-reducer';
 
 function App() {
   const dispatch = useDispatch()
@@ -16,6 +19,7 @@ function App() {
 
   useEffect(() => {
     dispatch(startGetProducts());
+    dispatch(startGetInvoices());
 
     (async () => {
       try { 

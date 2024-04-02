@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { CustomersContext } from '../contexts/root-context'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 // import useState
 export default function CustomerForm(props){
     const { customers, customerDispatch } = useContext(CustomersContext)
@@ -15,6 +15,13 @@ export default function CustomerForm(props){
         email: '',
         mobile: ''
     })
+
+    useEffect(() => {
+        return () => {
+            customerDispatch({ type: "SET_ERRORS", payload: []})
+        }
+    }, [])
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const formData = {
@@ -28,15 +35,14 @@ export default function CustomerForm(props){
             if(customer) {
                 const response = await axios.put(`http://localhost:3050/api/customers/${customer._id}`, formData) 
                 customerDispatch({ type: 'UPDATE_CUSTOMER', payload: response.data })
-                setForm({ name: '', email: '', mobile: ''})
                 props.toggle()
-                customerDispatch({ type: "SET_ERRORS", payload: []})
             } else {
                 const response = await axios.post('http://localhost:3050/api/customers', formData)
                 customerDispatch({ type: 'ADD_CUSTOMER', payload: response.data })
-                customerDispatch({ type: "SET_ERRORS", payload: []})
-                setForm({ name: '', email: '', mobile: ''})
             }
+            setForm({ name: '', email: '', mobile: ''})
+            customerDispatch({ type: "SET_ERRORS", payload: []})
+
             
         } catch(err) {
             customerDispatch({ type: "SET_ERRORS", payload: err.response.data.errors })
