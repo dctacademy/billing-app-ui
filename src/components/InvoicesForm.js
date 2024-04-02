@@ -1,6 +1,8 @@
 import { useState, useReducer, useContext } from 'react' 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { CustomersContext } from '../contexts/root-context'
+import { startCreateInvoice } from '../actions/invoices-action'
 
 const invoiceFormReducer = (state, action) => {
     switch(action.type) {
@@ -47,15 +49,15 @@ const invoiceFormReducer = (state, action) => {
 }
 
 export default function InvoiceForm(){
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { customers } = useContext(CustomersContext)
     const [search, setSearch] = useState('')
     const [invoiceForm, invoiceDispatch] = useReducer(invoiceFormReducer, {
         customer: '',
         lineItems: [],
         taxes: '',
-        discount: '',
-        grossTotal: '',
-        netTotal: ''
+        discount: ''
     })
 
     const products = useSelector((state) => {
@@ -64,6 +66,23 @@ export default function InvoiceForm(){
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        // client side validations 
+        // const reset = () => {
+        //     // reset form info 
+        // }
+       const formData = {...invoiceForm}
+       formData.lineItems = formData.lineItems.map((ele) => {
+        return {
+            product: ele._id, 
+            quantity: ele.quantity
+        }
+       })
+
+       const redirect = () => {
+        navigate('/invoices')
+       }
+       dispatch(startCreateInvoice(formData, redirect))
+       
     }
 
     const handleChange = (e) => {
@@ -100,7 +119,12 @@ export default function InvoiceForm(){
     }
 
     const calculateNetTotal = () => {
-        
+        const grossTotal = invoiceForm.lineItems.reduce((acc, cv) => {
+            return acc + cv.price * cv.quantity
+        }, 0)
+        const deductions = grossTotal * invoiceForm.discount / 100 
+        const additions = grossTotal * invoiceForm.taxes / 100 
+        return grossTotal - deductions + additions
     }
 
    
@@ -126,7 +150,7 @@ export default function InvoiceForm(){
                     <select value={invoiceForm.customer} onChange={handleChange} name="customer">
                         <option value="">Select</option>
                         { customers.data.map((ele) => {
-                            return <option value={ele._id}>{ele.name}</option>
+                            return <option key={ele._id} value={ele._id}>{ele.name}</option>
                         })}
                     </select>
                 </div>
@@ -184,13 +208,17 @@ export default function InvoiceForm(){
                             <option value="5">5%</option>
                             <option value="18">18%</option>
                     </select>
-                </div>
+                </div> 
+                <input type='submit' />
             </form>
 
             <h2>Gross Total - { calculateGrossTotal() } </h2>
             <p>Discount - { invoiceForm.discount }</p>
             <p>Taxes - { invoiceForm.taxes } </p>
             <h2>Net Total - { calculateNetTotal() }</h2>
+           
+
+            
         </div>
     )
 }

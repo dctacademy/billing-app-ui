@@ -13,6 +13,7 @@ export default function CustomerShow(){
     const navigate = useNavigate()
     const customer = customers.data.find(ele => ele._id == id )
 
+    console.log(customer)
     const toggle = () => {
         setModal(!modal)
     }
