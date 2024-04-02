@@ -80,7 +80,7 @@ export default function InvoiceForm(){
        })
 
        const redirect = () => {
-        // navigate('/invoices')
+        navigate('/invoices')
        }
        dispatch(startCreateInvoice(formData, redirect))
        
@@ -197,8 +197,6 @@ export default function InvoiceForm(){
                                                     {ele.quantity}
 
                                                     <button onClick={(e) => {
-                                                        console.log('click', e)
-                                                        e.stopPropagation()
                                                         invoiceDispatch({ type: 'INCREMENT', payload: ele._id })
                                                     }}>+</button>        
                                                 </td>
@@ -233,9 +231,9 @@ export default function InvoiceForm(){
                             onChange={handleChange}
                             className="form-select"    
                         >
-                                <option value="">Select</option>
-                                <option value="5">5%</option>
-                                <option value="18">18%</option>
+                            <option value="">Select</option>
+                            <option value="5">5%</option>
+                            <option value="18">18%</option>
                         </select>
                     </div> 
                     <button onClick={handleSubmit}> submit </button>
