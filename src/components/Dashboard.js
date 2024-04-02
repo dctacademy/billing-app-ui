@@ -3,8 +3,11 @@ import { CustomersContext } from '../contexts/root-context'
 import { useContext } from 'react'
 export default function Dashboard() {
     const {customers} = useContext(CustomersContext)
-    const [products, invoices] = useSelector((state) => { 
-        return [state.products, state.invoices]
+    const products = useSelector((state) => { 
+        return state.products
+    })
+    const invoices = useSelector((state) =>{ 
+        return state.invoices
     })
     
     return (
