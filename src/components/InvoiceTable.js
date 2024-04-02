@@ -10,9 +10,6 @@ export default function InvoiceTable(props){
                     <tr>
                         <th> customer </th>
                         <th> lineItems </th>
-                        <th> gross </th>
-                        <th> discount </th>
-                        <th> taxes</th>
                         <th> net  </th>
                         <th> balance</th>
                         <th> Actions </th>
@@ -23,14 +20,12 @@ export default function InvoiceTable(props){
                         return (
                             <tr key={ele._id}>
                                 <td> { ele.customer.name } </td>
-                                <td> { ele.lineItems.length } </td> 
-                                <td> { ele.grossTotal }</td>
-                                <td> { ele.discount }</td>
-                                <td> { ele.taxes }</td>
+                                <td> <button>show { ele.lineItems.length } </button></td> 
+                                
                                 <td> { ele.netTotal }</td>
                                 <td> { ele.outstandingBalance }</td>
                                 <td>
-                                    <buton>more</buton>
+                                    <button>more</button>
                                     <button>pay</button>
                                 </td>
                             </tr>
